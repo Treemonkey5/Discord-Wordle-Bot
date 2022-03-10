@@ -63,7 +63,6 @@ def evalues(data,answer,embed):
     y=json.load(File)
     File.close()
     string=""
-    '''letters=list('QWERTYUIOP\nASDFGHJKL\nZXCVBNM')'''
     letters=['q','w',"e","r",'t','y','u','i','o','p','\n\n','a','s','d','f','g','h','j','k','l','\n\n','z','x','c','v','b','n','m']
 
     File=open('emotes.txt','r')
@@ -129,7 +128,6 @@ def assign(values,letters):
         elif color=='y':
             if letters[temp.index(char)][1]=='b':
                 letters[temp.index(char)]=getevalue(linevalue+26,lines)
-
 
         if color=='b':
             linevalue+=52
@@ -298,9 +296,7 @@ async def guess(ctx, arg1):
             await ctx.channel.send(embed=embed)
 
         else:
-            
-            
-
+         
             data=prog.split('|')
 
             data.pop(-1)
@@ -344,14 +340,11 @@ async def stats(ctx):
 
     else:
         line=contain.split(',')
+        embed=discord.Embed(title='%s Wordle stats'%(str(player)[0:-5]),colour=discord.Colour.blue())    
+       
+        for i in range(1,7):
+          embed.add_field(name='%s guess'%(i), value=line(i), inline=True)
 
-        embed=discord.Embed(title='%s Wordle stats'%(str(player)[0:-5]),colour=discord.Colour.blue())
-        embed.add_field(name='1 guess', value=line[1], inline=True)
-        embed.add_field(name='2 guess', value=line[2], inline=True)
-        embed.add_field(name='3 guess', value=line[3], inline=True)
-        embed.add_field(name='4 guess', value=line[4], inline=True)
-        embed.add_field(name='5 guess', value=line[5], inline=True)
-        embed.add_field(name='6 guess', value=line[6], inline=True)
         embed.add_field(name='played', value=line[7], inline=True)
         embed.add_field(name='Lost', value=line[8], inline=True)
 
@@ -382,11 +375,10 @@ async def leaderboard(ctx):
                 break
 
     embed=discord.Embed(title='Wordle Leaderboard',colour=discord.Colour.blue())
-    embed.add_field(name='1', value='%s - %s'%(top[0][0][0:-5],str(top[0][1])), inline=False)
-    embed.add_field(name='2', value='%s - %s'%(top[1][0][0:-5],str(top[1][1])), inline=False)
-    embed.add_field(name='3', value='%s - %s'%(top[2][0][0:-5],str(top[2][1])), inline=False)
-    embed.add_field(name='4', value='%s - %s'%(top[3][0][0:-5],str(top[3][1])), inline=False)
-    embed.add_field(name='5', value='%s - %s'%(top[4][0][0:-5],str(top[4][1])), inline=False)
+    
+    for i in range(1,6):
+      embed.add_field(name='%s'%(i), value='%s - %s'%(top[i-1][0][0:-5],str(top[i-1][1])), inline=False)
+
     embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/513864352663863328/947958181596909608/unknown.png")
     await ctx.channel.send(embed=embed)
 
@@ -399,48 +391,6 @@ async def help(ctx):
     embed.add_field(name='Leaderboard',value='?wordle: start a game of wordle\n\n?guess [word]: guess a word\n\n?progress: see wordle game progress\n\n?stats: individual wordle stats\n\n?leaderboard: top 5 wordlers',inline=False)
 
     embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/513864352663863328/947958181596909608/unknown.png")
-    await ctx.channel.send(embed=embed)
-
-@bot.command()
-async def check(ctx):
-
-    embed=discord.Embed(title='Wordle', colour=discord.Colour.blue())
-    letter=['<:blank_a:947916947738230844>',
-    '<:blank_b:947916954721718342>',
-    '<:blank_c:947916961495515206>',
-    '<:blank_d:947916967635984394>',
-    '<:blank_e:947916974455947276>',
-    '<:blank_f:947916985835085918>',
-    '<:blank_g:947916994353721364>',"\n","  ",
-    '<:blank_h:947917006353612842>',
-    '<:blank_i:947917016642232320>',
-    '<:blank_j:947917026687582280>',
-    '<:blank_k:947917036837814322>',
-    '<:blank_l:947917046027538515>',
-    '<:blank_m:947917057297641503>',
-    '<:blank_n:947917067108122626>',
-    '<:blank_o:947917076763406417>',
-    '<:blank_p:947917087987355658>',
-    '<:blank_q:947917100465401876>',"\n","    ",
-    '<:blank_r:947917113429991477>',
-    '<:blank_s:947917122531635250>',
-    '<:blank_t:947917133151617044>',
-    '<:blank_u:947917144425889812>',
-    '<:blank_v:947917152919380018>',
-    '<:blank_w:947917160930484275>',
-    '<:blank_x:947917169348464680>',
-    '<:blank_y:947917178299109396>',
-    '<:blank_z:947917190441611265>',
-    ]
-
-    
-
-    string=""
-    for i in letter:
-        string+=i
-    print(''.join(string))
-    embed.add_field(name='remaining',value=''.join(string),inline=False)
-
     await ctx.channel.send(embed=embed)
 
 bot.run(TOKEN)
